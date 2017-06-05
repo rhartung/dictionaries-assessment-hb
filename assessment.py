@@ -4,6 +4,8 @@
 dictionaries and sets.
 """
 
+import random
+
 def count_words(phrase):
     """Count unique words in a string.
 
@@ -244,6 +246,16 @@ def kids_game(names):
     good solutions here will definitely require a dictionary.
     """
 
+    # this is as far as I could get on this problem
+    # the first for loop creates a dictionary - keys are every word in input list
+    # values are lists of words that start with the last letter of the key
+    # rest of code consistently finds the first and second word
+    # but once the second for loop starts the output does not satisfy the doctest
+    # I know the problem is that I don't have proper conditionals set up
+    # in my second for loop to select words in the correct order
+    # but I don't know how to fix it
+
+
     chain = {}
 
     for name in names:
@@ -251,18 +263,41 @@ def kids_game(names):
         if name not in chain:
             chain[name] = []
 
-        name_ends_with = name[len(name) - 1]
+        name_index = len(name) - 1
 
-        next_word = names[1]
+        name_ends_with = name[name_index]
 
-        next_starts_with = next_word[0]
+        for word in names:
 
-        if next_starts_with == name_ends_with:
-            chain[name].append(name)
+            next_starts_with = word[0]
 
-        # names = names[1:]
+            if next_starts_with == name_ends_with:
+                chain[name].append(word)
 
-    return chain
+    first_word = names[0]
+
+    output_words = [first_word]
+
+    try:
+        another_word = random.choice(chain[first_word])
+
+        output_words.append(another_word)
+
+    except:
+        pass
+
+    for key, value in chain.items():
+
+        if key not in output_words:
+
+            try:
+                next_word = random.choice(value)
+                output_words.append(next_word)
+
+            except:
+                break
+
+    return output_words
 
 #####################################################################
 # You can ignore everything below this.
